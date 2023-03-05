@@ -5,12 +5,6 @@ import { IData, IErrorData } from './api/display_list'
 import { useState } from 'react'
 import { IItemOfDisplayList } from './api/display_list'
 
-const getEnum = (list: any[], field: string) =>
-  list.reduce((a, b) => {
-    a.add(b[field])
-    return a
-  }, new Set())
-
 const fetcher = async (url: string) => {
   const res = await fetch(url)
   const data = await res.json()
@@ -25,7 +19,7 @@ export default function DisplayList() {
   const { data, error, isLoading, isValidating } = useSWR<IData, IErrorData>(() => `/api/display_list`, fetcher)
   const [cateId, setCateId] = useState<string>('100')
   const [sortField, setSortField] = useState<string>('sequence_no')
-  const [fieldNames, setFieldNames] = useState<string[]>(['imp_cnt'])
+  const [fieldNames, setFieldNames] = useState<string[]>([])
 
   const onChangeFieldNames = (e: any) => {
     const name = e.target.value
@@ -68,7 +62,16 @@ export default function DisplayList() {
           <div className={ui.c_control}>
             <div>
               <h2>상품 진열</h2>
-              <p>상품 진열 설정에 대한 설명글 </p>
+              <div className={ui.g_desc}>
+                <p>티어 벳지라는것으로 순서를 표현했습니다.</p>
+                <p>해당 필드의 min max 를 기준으로 백분율을 구하고, 20% 단위로 티어를 부여 하였습니다.</p>
+                <p>max click_cnt 10000</p>
+                <p>min click_cnt 900</p>
+                <p>이라고 가정하였을때 상품의 click_cnt가 2000 이라면,</p>
+                <p>{Math.ceil(((2000 - 900) / 10000) * 100)}% 이고 이것은 5티어에 해당합니다.</p>
+                <p> 티어는 20% 단위로 5개로 나누었습니다.</p>
+              </div>
+              <p></p>
             </div>
             <section>
               <div>
@@ -103,7 +106,7 @@ export default function DisplayList() {
                     type='button'
                     onClick={() => {
                       setSortField('sequence_no')
-                      setFieldNames(['imp_cnt'])
+                      setFieldNames([])
                     }}
                   >
                     Reset
@@ -183,7 +186,7 @@ export default function DisplayList() {
               <div>
                 <h3>
                   필드 설정
-                  <button className={ui.g_tag} type='button' onClick={() => setFieldNames(['imp_cnt'])}>
+                  <button className={ui.g_tag} type='button' onClick={() => setFieldNames([])}>
                     Reset
                   </button>
                 </h3>

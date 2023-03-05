@@ -18,7 +18,9 @@
   height: 100%;
   padding: 16px;
 }
-.c_control h3 {
+
+.c_control h3,
+.c_control h2 {
   display: flex;
   flex-flow: row;
   align-items: center;
@@ -136,6 +138,10 @@
   font-weight: bold;
 }
 .g_desc {
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
+  padding: 8px 0;
   color: #444;
 }
 .g_group_tags {
