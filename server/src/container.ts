@@ -6,7 +6,6 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
-console.log(process.env)
 export class Container {
   // config
   config = {
