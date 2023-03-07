@@ -61,7 +61,7 @@ export default function DisplayList() {
         <div className={ui.container}>
           <div className={ui.c_control}>
             <div>
-              <h2>상품 진열 !</h2>
+              <h2>상품 진열</h2>
               <div className={ui.g_desc}>
                 <p>티어 벳지라는것으로 순서를 표현했습니다.</p>
                 <p>해당 필드의 min max 를 기준으로 백분율을 구하고, 20% 단위로 티어를 부여 하였습니다.</p>
