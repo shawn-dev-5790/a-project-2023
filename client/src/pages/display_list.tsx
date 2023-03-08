@@ -62,7 +62,10 @@ export default function DisplayList() {
         <div className={ui.container}>
           <div className={ui.c_control}>
             <div>
-              <h2 style={{ color: variables.primaryColor }}>상품 진열</h2>
+              <h2 className={variables.test}>
+                상품 진열
+                <span>11</span>
+              </h2>
               <div className={ui.g_desc}>
                 <p>티어 벳지라는것으로 순서를 표현했습니다.</p>
                 <p>해당 필드의 min max 를 기준으로 백분율을 구하고, 20% 단위로 티어를 부여 하였습니다.</p>
@@ -72,7 +75,7 @@ export default function DisplayList() {
                 <p>{Math.ceil(((2000 - 900) / 10000) * 100)}% 이고 이것은 5티어에 해당합니다.</p>
                 <p> 티어는 20% 단위로 5개로 나누었습니다.</p>
               </div>
-              <p></p>
+              <p className={variables.test}>test</p>
             </div>
             <section>
               <div>

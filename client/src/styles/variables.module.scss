@@ -1,5 +1,12 @@
 $primary-color: #64ff00;
 
+.test {
+  background-color: gold;
+  span {
+    color: red; 
+  }
+}
+
 :export {
   primaryColor: $primary-color;
 }
