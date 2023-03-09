@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import useSWR from 'swr'
-import ui from '@/styles/DisplayList.module.css'
+import ui from '@/styles/page_mvp_showcase.module.css'
 import { IData, IErrorData } from '../api/display_list'
 import { useState } from 'react'
 import { IItemOfDisplayList } from '../api/display_list'
-import variables from '../styles/variables.module.scss'
 
 const fetcher = async (url: string) => {
   const res = await fetch(url)
@@ -58,212 +57,210 @@ export default function DisplayList() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className={ui.main}>
-        <div className={ui.container}>
-          <div className={ui.c_control}>
-            <div>
-              <h2 className={variables.test}>
-                상품 진열
-                <span>11</span>
-              </h2>
-              <div className={ui.g_desc}>
-                <p>티어 벳지라는것으로 순서를 표현했습니다.</p>
-                <p>해당 필드의 min max 를 기준으로 백분율을 구하고, 20% 단위로 티어를 부여 하였습니다.</p>
-                <p>max click_cnt 10000</p>
-                <p>min click_cnt 900</p>
-                <p>이라고 가정하였을때 상품의 click_cnt가 2000 이라면,</p>
-                <p>{Math.ceil(((2000 - 900) / 10000) * 100)}% 이고 이것은 5티어에 해당합니다.</p>
-                <p> 티어는 20% 단위로 5개로 나누었습니다.</p>
+      <div className={ui.page_mvp_showcase}>
+        <main className={ui.main}>
+          <div className={ui.container}>
+            <div className={ui.c_control}>
+              <div>
+                <h2>상품 진열</h2>
+                <div className={ui.g_desc}>
+                  <p>티어 벳지라는것으로 순서를 표현했습니다.</p>
+                  <p>해당 필드의 min max 를 기준으로 백분율을 구하고, 20% 단위로 티어를 부여 하였습니다.</p>
+                  <p>max click_cnt 10000</p>
+                  <p>min click_cnt 900</p>
+                  <p>이라고 가정하였을때 상품의 click_cnt가 2000 이라면,</p>
+                  <p>{Math.ceil(((2000 - 900) / 10000) * 100)}% 이고 이것은 5티어에 해당합니다.</p>
+                  <p> 티어는 20% 단위로 5개로 나누었습니다.</p>
+                </div>
               </div>
-              <p className={variables.test}>test</p>
+              <section>
+                <div>
+                  <h3>
+                    카테고리 설정
+                    <button className={ui.g_tag} type='button' onClick={() => setCateId('100')}>
+                      Reset
+                    </button>
+                  </h3>
+                  <div className={ui.g_group_tags}>
+                    <Input
+                      type='radio'
+                      name='cateId'
+                      value='100'
+                      hook={{ value: cateId, onChange: (e: any) => setCateId(e.target.value) }}
+                    />
+                    <Input
+                      type='radio'
+                      name='cateId'
+                      value='99'
+                      hook={{ value: cateId, onChange: (e: any) => setCateId(e.target.value) }}
+                    />
+                  </div>
+                </div>
+              </section>
+              <section>
+                <div>
+                  <h3>
+                    정렬 필드 설정
+                    <button
+                      className={ui.g_tag}
+                      type='button'
+                      onClick={() => {
+                        setSortField('sequence_no')
+                        setFieldNames([])
+                      }}
+                    >
+                      Reset
+                    </button>
+                  </h3>
+                  <div className={ui.g_group_tags}>
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='sequence_no'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='imp_cnt'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='view_cnt'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='click_cnt'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='addcart_cnt'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='conversion_cnt'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='conversion_amt'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='ctr'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='view_cvr'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='imp_cvr'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                    <Input
+                      type='radio'
+                      name='fieldSort'
+                      value='ecpm'
+                      hook={{ value: sortField, onChange: onChangeSortField }}
+                    />
+                  </div>
+                </div>
+              </section>
+              <section>
+                <div>
+                  <h3>
+                    필드 설정
+                    <button className={ui.g_tag} type='button' onClick={() => setFieldNames([])}>
+                      Reset
+                    </button>
+                  </h3>
+                  <div className={ui.g_group_tags}>
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='imp_cnt'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='view_cnt'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='click_cnt'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='addcart_cnt'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='conversion_cnt'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='conversion_amt'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='ctr'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='view_cvr'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='imp_cvr'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                    <Input
+                      type='checkbox'
+                      name='field'
+                      value='ecpm'
+                      hook={{ value: fieldNames, onChange: onChangeFieldNames }}
+                    />
+                  </div>
+                </div>
+              </section>
             </div>
-            <section>
-              <div>
-                <h3>
-                  카테고리 설정
-                  <button className={ui.g_tag} type='button' onClick={() => setCateId('100')}>
-                    Reset
-                  </button>
-                </h3>
-                <div className={ui.g_group_tags}>
-                  <Input
-                    type='radio'
-                    name='cateId'
-                    value='100'
-                    hook={{ value: cateId, onChange: (e: any) => setCateId(e.target.value) }}
-                  />
-                  <Input
-                    type='radio'
-                    name='cateId'
-                    value='99'
-                    hook={{ value: cateId, onChange: (e: any) => setCateId(e.target.value) }}
-                  />
-                </div>
-              </div>
-            </section>
-            <section>
-              <div>
-                <h3>
-                  정렬 필드 설정
-                  <button
-                    className={ui.g_tag}
-                    type='button'
-                    onClick={() => {
-                      setSortField('sequence_no')
-                      setFieldNames([])
-                    }}
-                  >
-                    Reset
-                  </button>
-                </h3>
-                <div className={ui.g_group_tags}>
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='sequence_no'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='imp_cnt'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='view_cnt'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='click_cnt'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='addcart_cnt'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='conversion_cnt'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='conversion_amt'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='ctr'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='view_cvr'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='imp_cvr'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                  <Input
-                    type='radio'
-                    name='fieldSort'
-                    value='ecpm'
-                    hook={{ value: sortField, onChange: onChangeSortField }}
-                  />
-                </div>
-              </div>
-            </section>
-            <section>
-              <div>
-                <h3>
-                  필드 설정
-                  <button className={ui.g_tag} type='button' onClick={() => setFieldNames([])}>
-                    Reset
-                  </button>
-                </h3>
-                <div className={ui.g_group_tags}>
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='imp_cnt'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='view_cnt'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='click_cnt'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='addcart_cnt'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='conversion_cnt'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='conversion_amt'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='ctr'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='view_cvr'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='imp_cvr'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                  <Input
-                    type='checkbox'
-                    name='field'
-                    value='ecpm'
-                    hook={{ value: fieldNames, onChange: onChangeFieldNames }}
-                  />
-                </div>
-              </div>
-            </section>
+            <div className={ui.c_preview}>
+              <Preview list={getList(cateId, sortField)} fieldNames={fieldNames} />
+            </div>
           </div>
-          <div className={ui.c_preview}>
-            <Preview list={getList(cateId, sortField)} fieldNames={fieldNames} />
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </>
   )
 }
