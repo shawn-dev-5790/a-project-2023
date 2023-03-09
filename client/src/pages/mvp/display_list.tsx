@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import useSWR from 'swr'
 import ui from '@/styles/DisplayList.module.css'
-import { IData, IErrorData } from './api/display_list'
+import { IData, IErrorData } from '../api/display_list'
 import { useState } from 'react'
-import { IItemOfDisplayList } from './api/display_list'
+import { IItemOfDisplayList } from '../api/display_list'
 import variables from '../styles/variables.module.scss'
 
 const fetcher = async (url: string) => {
