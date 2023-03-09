@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import useSWR from 'swr'
-import ui from '@/styles/page_mvp_showcase.module.css'
+import ui from '@/styles/page_mvp_showcase.module.scss'
 import { IData, IErrorData } from '../api/display_list'
 import { useState } from 'react'
 import { IItemOfDisplayList } from '../api/display_list'
