@@ -30,3 +30,72 @@
     @content;
   }
 }
+
+@mixin btnGreen {
+  color: #fff;
+  background: var(--brand_green_1000);
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  height: 36px;
+  &:hover{
+    border: none;
+    background: var(--brand_green_1100);
+    color: var(--white);
+  }
+  &:active{
+    order: none;
+    background: var(--brand_green_1200);
+    color: var(--white);
+  }
+}
+
+@mixin btnBlack {
+  color: #fff;
+  background: var(--brand_black_1200);
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  height: 36px;
+  &:hover{
+    border: none;
+    background: var(--brand_black_1100);
+    color: var(--white);
+  }
+  &:active{
+    order: none;
+    background: var(--brand_black_1000);
+    color: var(--white);
+  }
+}
+
+@mixin btnYellow {
+  color: var(--brand_black_1200);
+  background: var(--brand_yellow_400);
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  height: 36px;
+  &:hover{
+    border: none;
+    background: var(--brand_yellow_500);
+    color: var(--black);
+  }
+  &:active{
+    order: none;
+    background: var(--brand_yellow_300);
+    color: var(--brand_black_1200);
+  }
+}
