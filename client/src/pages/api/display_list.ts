@@ -25,7 +25,7 @@ export interface IItemOfDisplayList {
 export interface IData {
   code: string
   message: string
-  data: { display_list: IItemOfDisplayList[] }
+  data: { data: IItemOfDisplayList[] }
 }
 
 export interface IErrorData {
@@ -37,7 +37,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<IData>
   const http_res = {
     code: '200',
     message: 'success-get-dummy-data',
-    data: { display_list: ITEM_DISPLAY_LIST },
+    data: { data: ITEM_DISPLAY_LIST },
   }
   res.status(200).json(http_res)
 }

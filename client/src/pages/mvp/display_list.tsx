@@ -42,7 +42,7 @@ export default function DisplayList() {
   if (!data) return null
 
   const getList = (cateBy: string = '', sortBy: string = '') => {
-    const displayList = data.data.display_list || []
+    const displayList = data.data.data || []
     if (!(cateBy && sortBy)) return displayList
     const res = displayList.filter(({ cate_id }) => cate_id === cateBy)
     res.sort((a: any, b: any) => b[sortBy] - a[sortBy])
@@ -267,7 +267,6 @@ export default function DisplayList() {
 function Input(props: { type: string; name: string; value: any; hook: any }) {
   const id = props.name + props.value
   const checked = props.hook.value.includes(props.value)
-
   return (
     <>
       <input

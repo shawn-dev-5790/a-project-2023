@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import ui from '@/styles/page_mvp_showcase.module.scss'
 import useSWR from 'swr'
+import { useState } from 'react'
 
-const fetcher = async (url: string) => {
+const onfetch = async (url: string) => {
   const res = await fetch(url)
   const data = await res.json()
 
@@ -21,37 +22,84 @@ export default function PageMVPShowcase() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-
-      <PageMVPShowcaseCont />
+      <div className={ui.page_mvp_showcase}>
+        <Header />
+        <Main />
+        <Footer />
+      </div>
     </>
   )
 }
 
-function PageMVPShowcaseCont() {
+function Header() {
+  return (
+    <header>
+      <h1>Welcome to visit our workplace for MVP 2023</h1>
+    </header>
+  )
+}
+function Footer() {
   const link = {
     vercel: 'https://vercel.com/shawndev5790-gmailcom/a-project-2023/HpApdv4QicanWP8VpZE1K2r41PkM',
     github: 'https://github.com/shawn-dev-5790/a-project-2023',
   }
-
-  const { data, error, isLoading, isValidating } = useSWR<any, any>(() => '/api/getShowcaseList', fetcher)
-
   return (
-    <div className={ui.page_mvp_showcase}>
-      <header>
-        <h1>Welcome to visit our workplace for MVP 2023.</h1>
-      </header>
-      <main>
+    <footer>
+      <a href={link.vercel} target='_blank' rel='noopener noreferrer'>
+        visit vercel
+      </a>
+      <a href={link.github} target='_blank' rel='noopener noreferrer'>
+        visit github
+      </a>
+    </footer>
+  )
+}
+function Main() {
+  //   const { data, error, isLoading, isValidating } = useSWR<any, any>(() => '/api/getShowcaseList', onfetch)
+  const { data, error, isLoading, isValidating } = useSWR<any, any>(() => '/api/display_list', onfetch)
+  const currency = new Intl.NumberFormat('ko', { style: 'currency', currency: 'KRW' })
+  const number = new Intl.NumberFormat('ko', {})
+  const onErrorImg = (e: any) => {
+    e.target.src = 'https://dummyimage.com/200x200/efefef/444444.png&text=no-image'
+  }
+  const list = data?.data.data || []
+  const [openSidePanel, setOpenSidePanel] = useState(false)
+  const onToggleSidePanel = () => setOpenSidePanel(!openSidePanel)
+  return (
+    <main>
+      <section className={ui.control}></section>
+      <section className={ui.preview}>
+        <div className={ui.preview_head}>
+          <strong>미리보기</strong>
+          <p>추천된 정렬 방식에 따른 미리보기 화면을 제공합니다</p>
+        </div>
         {isLoading && 'loading...'}
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </main>
-      <footer>
-        <a href={link.vercel} target='_blank' rel='noopener noreferrer'>
-          visit vercel
-        </a>
-        <a href={link.github} target='_blank' rel='noopener noreferrer'>
-          visit github
-        </a>
-      </footer>
-    </div>
+        <ul className={ui.preview_items}>
+          {list.map((item: any) => (
+            <li key={`${item.item_id}-${item.sequence_no}`}>
+              <span className={ui.preview_img}>
+                <img
+                  className={ui.g_img}
+                  loading='lazy'
+                  src={item.main_item_img}
+                  alt={`image of ${item.item_name}`}
+                  onError={onErrorImg}
+                />
+              </span>
+              <div className={ui.preview_info}>
+                <div className={ui.g_ellipsis_1}>{item.item_name}</div>
+                <div>{currency.format(item.selling_price)}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section className={[ui.side, openSidePanel && ui.open].filter((cn) => !!cn).join(' ')}>
+        <button className={ui.btn_side_toggle} type='button' onClick={onToggleSidePanel}>
+          side
+        </button>
+        side panel
+      </section>
+    </main>
   )
 }

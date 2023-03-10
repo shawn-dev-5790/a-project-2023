@@ -1,9 +1,83 @@
 @import 'mixins';
 
 .page_mvp_showcase {
-  @include layout() {
+  overflow: hidden;
+  img {
+    display: flex;
+    width: 100%;
+    object-fit: cover;
   }
-  .main {
+  @include layout() {
+    main {
+      position: relative;
+      display: flex;
+      flex-flow: row;
+      padding: 64px 0 0;
+      background-color: #efefef;
+    }
+  }
+  .control {
+    flex: 0 0 320px;
+    display: flex;
+    flex-flow: column;
+    gap: 16px;
+    padding: 16px;
+    background-color: #fff;
+  }
+  .preview {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    gap: 16px;
+    margin: 0 40px;
+    padding: 16px;
+    background-color: #fff;
+    .preview_head {
+    }
+    .preview_items {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+  }
+  .side {
+    position: fixed;
+    top: 64px;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-flow: column;
+    gap: 16px;
+    width: calc(100% - 320px - 40px);
+    padding: 16px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    transform: translateX(100%);
+    z-index: 10;
+    &.open {
+      transform: translateX(0);
+      background-color: #fff;
+    }
+    & .btn_side_toggle {
+      position: absolute;
+      top: 0;
+      left: -40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background-color: #000;
+      color: #fff;
+      &:hover {
+        background-color: #444;
+      }
+    }
+  }
+}
+
+/*
+.main {
     display: flex;
     flex-flow: column;
   }
@@ -177,4 +251,5 @@
     width: 24px;
     height: 24px;
   }
-}
+
+*/
