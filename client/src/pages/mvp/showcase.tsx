@@ -2,17 +2,8 @@ import Head from 'next/head'
 import ui from '@/styles/page_mvp_showcase.module.scss'
 import useSWR from 'swr'
 import { useState } from 'react'
+import { onfetch } from '@/helpers'
 import SidePanel from './components/side_panel'
-
-const onfetch = async (url: string) => {
-  const res = await fetch(url)
-  const data = await res.json()
-
-  if (res.status !== 200) {
-    throw new Error(data.message)
-  }
-  return data
-}
 
 export default function PageMVPShowcase() {
   return (
@@ -95,7 +86,7 @@ function Main() {
           ))}
         </ul>
       </section>
-      <SidePanel/>
+      <SidePanel />
     </main>
   )
 }
