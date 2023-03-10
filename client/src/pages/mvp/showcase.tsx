@@ -2,6 +2,7 @@ import Head from 'next/head'
 import ui from '@/styles/page_mvp_showcase.module.scss'
 import useSWR from 'swr'
 import { useState } from 'react'
+import SidePanel from './components/side_panel'
 
 const onfetch = async (url: string) => {
   const res = await fetch(url)
@@ -94,12 +95,7 @@ function Main() {
           ))}
         </ul>
       </section>
-      <section className={[ui.side, openSidePanel && ui.open].filter((cn) => !!cn).join(' ')}>
-        <button className={ui.btn_side_toggle} type='button' onClick={onToggleSidePanel}>
-          side
-        </button>
-        side panel
-      </section>
+      <SidePanel/>
     </main>
   )
 }
