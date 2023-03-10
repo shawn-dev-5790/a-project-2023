@@ -14,13 +14,26 @@ button {
   outline: none;
   border: 0 none;
 }
+img {
+  display: flex;
+  width: 100%;
+  object-fit: cover;
+}
+.g_ellipsis_2 {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 
-.btn_yellow{
-  @include btnYellow()
+.btn_yellow {
+  @include btnYellow();
 }
-.btn_black{
-  @include btnBlack()
+.btn_black {
+  @include btnBlack();
 }
-.btn_green{
-  @include btnGreen()
+.btn_green {
+  @include btnGreen();
 }
