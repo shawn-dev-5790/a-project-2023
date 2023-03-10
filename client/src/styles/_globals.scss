@@ -1,5 +1,5 @@
 @import 'variables';
-
+@import 'mixins';
 * {
   margin: 0;
   padding: 0;
@@ -13,4 +13,14 @@ li {
 button {
   outline: none;
   border: 0 none;
+}
+
+.btn_yellow{
+  @include btnYellow()
+}
+.btn_black{
+  @include btnBlack()
+}
+.btn_green{
+  @include btnGreen()
 }
