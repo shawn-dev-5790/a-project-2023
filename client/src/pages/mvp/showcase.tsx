@@ -157,7 +157,7 @@ function Main() {
               ))}
           </ul>
         </section>
-        <SidePanel />
+        <SidePanel d={list}/>
       </main>
     </>
   )
