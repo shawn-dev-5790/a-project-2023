@@ -132,7 +132,7 @@ function Main() {
               .sort((a: any, b: any) => {
                 return b['ecpm'] - a['ecpm']
               })
-              .map((item: any) => (
+              .map((item: any, tdx: number) => (
                 <li key={`${item.item_id}-${item.sequence_no}`}>
                   <span className={ui.preview_img}>
                     <img
@@ -144,7 +144,9 @@ function Main() {
                     />
                   </span>
                   <div className={ui.preview_info}>
-                    <div>idx:{item.idx}</div>
+                    <div>
+                      idx:{item.idx} 🔀 {tdx}
+                    </div>
                     <div className={'g_ellipsis_2'}>{item.item_name}</div>
                     <div>{currency.format(item.selling_price)}</div>
                     <div>ecpm={item.ecpm.toFixed(0)}</div>
