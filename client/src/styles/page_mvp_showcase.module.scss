@@ -11,12 +11,10 @@
     }
   }
   .control {
-    position: sticky;
-    top: 0;
-    left: 0;
-    flex: 0 0 480px;
+    flex: 0 0 420px;
     display: flex;
     flex-flow: column;
+    height: 100%;
     gap: 16px;
     padding: 16px;
     background-color: #fff;
@@ -69,24 +67,29 @@
       }
     }
   }
-  .preview {
+  .content {
     flex: 1;
-    position: relative;
     display: flex;
-    flex-flow: column;
-    max-width: 50%;
-    padding: 0 16px 16px;
-    background-color: #fff;
-    .preview_head {
-      position: sticky;
-      top: 0;
-      padding: 16px 0;
+    flex-flow: row;
+    overflow: auto;
+    gap: 16px;
+    .preview {
+      display: flex;
+      flex-flow: column;
+      padding: 0 16px 16px;
       background-color: #fff;
-    }
-    .preview_items {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      .preview_head {
+        position: sticky;
+        top: 0;
+        padding: 16px 0;
+        background-color: #fff;
+      }
+      .preview_items {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        background-color: #fff;
+      }
     }
   }
   .side {
