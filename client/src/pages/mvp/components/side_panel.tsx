@@ -12,7 +12,7 @@ export default function SidePanel({ d }: any) {
     const newObj = { ...obj };
     newObj.x = newObj.ctr;
     newObj.y = newObj.click_cnt;
-    newObj.label = newObj.item_name
+    newObj.name = newObj.item_name
     delete newObj.ctr;
     delete newObj.click_cnt;
     delete newObj.item_name;
@@ -20,11 +20,11 @@ export default function SidePanel({ d }: any) {
   })
 
 
+  console.log(data)
 
   const dataSet = {
     datasets: [
       {
-        label: 'Scatter Chart',
         data,
       },
     ],
@@ -41,62 +41,66 @@ export default function SidePanel({ d }: any) {
           weight: 'bold'
         },
         formatter: Math.round
-      }
+      },
 
 
-      // tooltip: {
-      //   callbacks: {
-      //     label: function (context: any) {
-      //       var label = context.dataset.label || '';
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            // let label = context.dataset.label || '';
 
-      //       if (label) {
-      //         label += context.label;
-      //       }
-      //       if (context.parsed.x !== null) {
-      //         label += 'asdasd: ' + context.parsed.x + ', ';
-      //       }
-      //       if (context.parsed.y !== null) {
-      //         label += 'y: ' + context.parsed.y;
-      //       }
+            // if (context.parsed.name) {
+            //   label += context.parsed.name;
+            // }
+            // if (context.parsed.x !== null) {
+            //   label += 'ctr: ' + context.parsed.x + '\n';
+            // }
+            // if (context.parsed.y !== null) {
+            //   label += '클릭율: ' + context.parsed.y;
+            // }
+            
+            const label = `
+            ctr : ${context.parsed.x}\n,
+            클릭수: ${context.parsed.y}
+            `
 
-      //       return label;
-      //     }
-      //   },
-      //   labels: {
-      //     render: 'label',
-      //     fontColor: '#000',
-      //     fontSize: 14,
-      //   },
-      // },
-      // elements: {
-      //   point: {
-      //     radius: 5,
-      //     hitRadius: 10,
-      //     hoverRadius: 10,
-      //     hoverBorderWidth: 2,
-      //     pointStyle: 'circle',
-      //     borderWidth: 1,
-      //     // backgroundColor: function(context:any) {
-      //     //   const index = context.dataIndex;
-      //     //   const value = data[index];
-      //     //   return value.color;
-      //     // },
-      //     // 포인트에 라벨을 추가
-      //     text: function(context:any) {
-      //       const index = context.dataIndex;
-      //       const value = data[index];
-      //       return value.label;
-      //     },
-      //     // 포인트 라벨의 폰트 스타일 및 색상 설정
-      //     font: {
-      //       family: 'Arial',
-      //       size: 12,
-      //       weight: 'bold',
-      //       color: '#333',
-      //     },
-      //   },
-      // },
-      // ...
+            return label;
+          }
+        },
+        labels: {
+          render: 'label',
+          fontColor: '#000',
+          fontSize: 14,
+        },
+      },
+      elements: {
+        point: {
+          radius: 5,
+          hitRadius: 10,
+          hoverRadius: 10,
+          hoverBorderWidth: 2,
+          pointStyle: 'circle',
+          borderWidth: 1,
+          // backgroundColor: function(context:any) {
+          //   const index = context.dataIndex;
+          //   const value = data[index];
+          //   return value.color;
+          // },
+          // 포인트에 라벨을 추가
+          text: function(context:any) {
+            const index = context.dataIndex;
+            const value = data[index];
+            return value.label;
+          },
+          // 포인트 라벨의 폰트 스타일 및 색상 설정
+          font: {
+            family: 'Arial',
+            size: 12,
+            weight: 'bold',
+            color: '#333',
+          },
+        },
+      },
     }
   }
   return (
