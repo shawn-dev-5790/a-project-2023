@@ -1,38 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).test
+## 2차
 
-## Getting Started
+1. 정렬방법
+   - 필드 별로 정렬하기 (커스텀)
+   - 카드 (자동: 제안하는 정렬 방식을 추천)
+2. 차트 표현 방법
+   - 지금 선택된 지표 기준으로 차트 생성
+   - 차트에서 지표를 변경 할 수 있음
+3. 사이드 패널에서 추가할 내용
+   - 내부 정보를 어느 정도까지 보여줄지
+   - 다른 상품군과 비교하는 섹션
+4. 표현하고자 하는 그래프
+   - https://archive.nytimes.com/www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html
 
-First, run the development server:
+## Pre 3차
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+화면 노출
+좌측 : 기본 상품 진열
+우측 : 스케터 그래프
+사이드 : 디데일 정보
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+x 클릭률 (ctr)
+y 구매전환율 (view_cvr)
+t 노출수 (imp_cnt)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+스케일 조절
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+다이나믹 인터렉션 리스트 to 그래프
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+https://divers-secure-static-files.s3.amazonaws.com/reports/10000480896f2b61d2d9f887fe44bf4df36a9/item_report_2023-03-20.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIATJ2CRN5KX73WPYWJ%2F20230320%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230320T063136Z&X-Amz-Expires=100&X-Amz-SignedHeaders=host&X-Amz-Signature=ff72d6d17623b2f5e7ece1dc656ba5d37084666bc9c9d6127b49f7c984410392

@@ -20,7 +20,7 @@ export default function SidePanel({ d }: any) {
   })
 
 
-  console.log(data)
+  // console.log(data)
 
   const dataSet = {
     datasets: [
