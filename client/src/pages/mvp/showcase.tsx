@@ -3,7 +3,7 @@ import ui from '@/styles/page_mvp_showcase.module.scss'
 import useSWR from 'swr'
 import React, { useEffect, useState } from 'react'
 import { onfetch } from '@/helpers'
-import SidePanel from './components/side_panel'
+// import SidePanel from './components/side_panel'
 import { ZoomAbleScatterPlotWithQuadrant } from '@/lib/charts'
 
 export default function PageMVPShowcase() {
