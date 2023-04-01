@@ -9244,8 +9244,8 @@ export class ZoomAbleScatterPlotWithQuadrant {
   lib = { d3 }
   spec = {
     viewport: {
-      width: 500,
-      height: 500,
+      width: 840,
+      height: 840,
     },
     margin: {
       top: 12,
@@ -9257,14 +9257,14 @@ export class ZoomAbleScatterPlotWithQuadrant {
       scaleExtent: [1, 8],
       translateExtent: [
         [0, 0],
-        [500, 500],
+        [840, 840],
       ],
     },
     axis: {
       tick: 10,
     },
     dots: {
-      r: 6,
+      r: 12,
       opacity: 0.5,
       data: Array.from({ length: json.length }).map((_, i) => ({
         i: json[i].item_id,

@@ -13,7 +13,7 @@
       gap: 24px;
       background-color: #ccc;
       .preview {
-        flex: 0 0 calc(100vw - (24px * 3) - 500px);
+        flex: 0 0 calc(100vw - (24px * 3) - 840px);
         ul {
           overflow: overlay;
           display: flex;
@@ -38,7 +38,7 @@
       }
       .target {
         position: relative;
-        flex: 0 0 500px;
+        flex: 0 0 840px;
         background-color: white;
       }
     }
