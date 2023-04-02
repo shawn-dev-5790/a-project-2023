@@ -17,6 +17,7 @@ export default function PageMVPShowcase() {
         <style>{`
           ._tt{position:absolute;display:flex;flex-flow:column;justify-content:center;align-items:center;gap:10px;padding:4px;width:120px;background-color:black;color:white;font-size:12px;border-radius:4px}
           ._tt img{display:block;width:100%;text-align:center;object-fit:cover}
+          ._g_d circle, ._g_d text{cursor:pointer;}
         `}</style>
       </Head>
       <div className={ui.page_mvp_showcase}>
@@ -31,7 +32,7 @@ export default function PageMVPShowcase() {
 function Header() {
   return (
     <header>
-      <h1>Welcome to visit our workplace for MVP 2023</h1>
+      <h1>MVP SHOWCASE</h1>
     </header>
   )
 }
@@ -72,8 +73,34 @@ function Main() {
 
   useEffect(() => {
     if (!isLoading) {
-      const c = new ZoomAbleScatterPlotWithQuadrant()
-      c.init().zoomTo(selected)
+      const w = window.innerWidth / 2 - 60
+      const h = window.innerHeight - 128 - 48
+      const r = w * 0.009084027252081756
+      const c = new ZoomAbleScatterPlotWithQuadrant({
+        viewport: { width: w, height: h },
+        margin: { top: 12, bottom: 12, left: 12, right: 12 },
+        zoom: {
+          scaleExtent: [1, 8],
+          translateExtent: [
+            [0, 0],
+            [w, h],
+          ],
+        },
+        axis: { tick: 10 },
+        dots: {
+          r: r,
+          opacity: 0.4,
+          data: Array.from({ length: list.length }).map((_, i) => ({
+            i: list[i].item_id,
+            n: list[i].item_name,
+            x: list[i].ctr,
+            y: list[i].view_cvr || 0,
+            t: list[i].imp_cnt,
+            img: list[i].main_item_img,
+          })),
+        },
+      })
+      c.init().quadrantTo(27241).zoomTo(selected)
     }
   }, [selected, isLoading])
   return (
@@ -99,7 +126,9 @@ function Main() {
                       />
                     </span>
                     <div>
-                      <div>idx:{idx}</div>
+                      <div>
+                        idx:{idx}({item.item_id})
+                      </div>
                       <div className={'g_ellipsis_2'}>{item.item_name}</div>
                       <div>{currency.format(item.selling_price)}</div>
                       <div>ecpm={item.ecpm.toFixed(0)}</div>
