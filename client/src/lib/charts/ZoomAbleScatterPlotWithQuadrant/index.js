@@ -191,6 +191,13 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .append('circle')
       .attr('class', (d) => `_dot_${d.i}`)
 
+    this.dotTexts = this.gd
+      .selectAll('text')
+      .data(dots.data)
+      .enter()
+      .append('text')
+      .attr('class', (d) => `_dot_text_${d.i}`)
+
     // object
     this.zoom = d3.zoom().scaleExtent(scaleExtent).translateExtent(translateExtent)
 
@@ -271,6 +278,18 @@ export class ZoomAbleScatterPlotWithQuadrant {
         }, 3000)
       })
 
+    this.dotTexts.on('click', (_, d) => {
+      this.zoomTo(d.i)
+      const listTarget = document.getElementById(d.i)
+      listTarget.scrollIntoView()
+      listTarget.style.transition = 'all 1s ease'
+      listTarget.style.backgroundColor = 'rgba(245, 40, 145, 0.8)'
+      const m = setTimeout(() => {
+        listTarget.style.backgroundColor = 'white'
+        clearTimeout(m)
+      }, 3000)
+    })
+
     return this
   }
   update() {
@@ -285,11 +304,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .attr('r', r)
       .attr('opacity', opacity)
 
-    this.gd
-      .selectAll('text')
-      .data(data)
-      .enter()
-      .append('text')
+    this.dotTexts
       .attr('x', (d) => this.xScale(d.x))
       .attr('y', (d) => this.yScale(d.y) + r)
       .attr('font-size', r)
