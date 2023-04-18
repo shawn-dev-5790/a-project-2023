@@ -4,7 +4,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
   lib = { d3 }
   spec = {
     viewport: {
-      width: 840,
+      width: 640,
       height: 840,
     },
     margin: {
@@ -17,7 +17,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       scaleExtent: [1, 8],
       translateExtent: [
         [0, 0],
-        [840, 840],
+        [640, 840],
       ],
     },
     axis: {
@@ -90,7 +90,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
         height: y + '%',
         fill: 'url(#quadrant_1)',
         id: 'quadrant_1',
-        color: '#ef476f',
+        color: '#FF7770',
         gradientTransform: 'translate(-1,-1) scale(2,2)',
       },
       {
@@ -100,7 +100,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
         height: y + '%',
         fill: 'url(#quadrant_2)',
         id: 'quadrant_2',
-        color: '#06d6a0',
+        color: '#25D4B1', //green
         gradientTransform: 'translate(0,-1) scale(2,2)',
       },
       {
@@ -109,8 +109,8 @@ export class ZoomAbleScatterPlotWithQuadrant {
         width: 100 - x + '%',
         height: 100 - y + '%',
         fill: 'url(#quadrant_3)',
-        id: 'quadrant_1',
-        color: '#26547c',
+        id: 'quadrant_3',
+        color: '#1AABFF', //blue
         gradientTransform: 'translate(0,0) scale(2,2)',
       },
       {
@@ -120,7 +120,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
         height: 100 - y + '%',
         fill: 'url(#quadrant_4)',
         id: 'quadrant_4',
-        color: '#ffd166',
+        color: '#FAFA00', //yellow
         gradientTransform: 'translate(-1,0) scale(2,2)',
       },
     ]
@@ -138,9 +138,9 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .attr('gradientTransform', (d) => d.gradientTransform)
       .each(function (d, i) {
         const stopsData = [
-          { offset: '0%', opacity: 0.3 },
-          { offset: '50%', opacity: 0.2 },
-          { offset: '100%', opacity: 0.1 },
+          { offset: '0%', opacity: 0.15 },
+          { offset: '50%', opacity: 0.15 },
+          { offset: '100%', opacity: 0.15 },
         ]
         d3.select(this)
           .selectAll('stop')
@@ -174,6 +174,15 @@ export class ZoomAbleScatterPlotWithQuadrant {
     const { left, bottom } = margin
     const { tick } = axis
 
+    const maxX = d3.max(dots.data, (d) => d.x)
+    const maxY = d3.max(dots.data, (d) => d.y)
+
+    const midX = maxX / 2
+    const midY = maxY / 2
+
+    const xScale = d3.scaleLinear().domain([0, maxX]).range([width, 0])
+    const yScale = d3.scaleLinear().domain([0, maxY]).range([height, 0])
+
     // dom
     this.body = d3.select('body')
     this.target = d3.select('#target')
@@ -184,6 +193,76 @@ export class ZoomAbleScatterPlotWithQuadrant {
     this.gy = this.svg.append('g').attr('class', '_g_y')
     this.gq = this.svg.append('g').attr('class', '_g_q')
     this.gd = this.svg.append('g').attr('class', '_g_d')
+
+    this.q1t = this.gq
+      .append('rect')
+      .attr('fill', '#FF7770')
+      .attr('x', xScale(midX))
+      .attr('y', 0)
+      .attr('width', width / 2)
+      .attr('height', height / 2)
+      .attr('opacity', 0.2)
+
+    this.q2t = this.gq
+      .append('rect')
+      .attr('fill', '#25D4B1')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', width / 2)
+      .attr('height', height / 2)
+      .attr('opacity', 0.2)
+
+    this.q3t = this.gq
+      .append('rect')
+      .attr('fill', '#1AABFF')
+      .attr('x', 0)
+      .attr('y', yScale(midY))
+      .attr('width', width / 2)
+      .attr('height', height / 2)
+      .attr('opacity', 0.2)
+
+    this.q4t = this.svg
+      .append('rect')
+      .attr('fill', '#FAFA00')
+      .attr('x', xScale(midX))
+      .attr('y', yScale(midY))
+      .attr('width', width / 2)
+      .attr('height', height / 2)
+      .attr('opacity', 0.2)
+
+    // this.q1t = this.gq
+    //   .append('text')
+    //   .attr('x', xScale(midX / 2))
+    //   .attr('y', yScale(midY + midY / 2))
+    //   .attr('transform', 'translate(-50, -50)')
+    //   .text('Quadrant 1')
+
+    // this.q2t = this.gq
+    //   .append('text')
+    //   .attr('x', xScale(midX / 2))
+    //   .attr('y', yScale(midY / 2))
+    //   .attr('transform', 'translate(-50, -50)')
+    //   .text('Quadrant 2')
+
+    // this.q3t = this.gq
+    //   .append('rect')
+    //   .attr('fill', '#f99')
+    //   .attr('x', 0)
+    //   .attr('y', yScale(midY ))
+    //   .attr('width', width / 2)
+    //   .attr('height', height /2)
+    //   .attr('opacity', .5)
+    //   // .attr('transform', 'translate(-50, -50)')
+    //   .text('Quadrant 3')
+    //   .append('text').text('aaasdaslkjdlaksjdlkajsdlkjaslkdj')
+
+    // this.q4t = this.svg
+    //   .append('text')
+    //   .attr('x', xScale(midX + midX / 2))
+    //   .attr('y', yScale(midY + midY / 2))
+    //   .attr('transform', 'translate(-50, -50)')
+    //   .text('Quadrant 4')
+
     this.dots = this.gd
       .selectAll('circle')
       .data(dots.data)
@@ -234,6 +313,10 @@ export class ZoomAbleScatterPlotWithQuadrant {
       this.gx.call(this.xAxis.scale(transform.rescaleX(this.xScale)))
       this.gy.call(this.yAxis.scale(transform.rescaleY(this.yScale)))
       this.svg.selectAll('g.tick line').attr('stroke', '#ccc')
+      this.q1t.attr('transform', transform)
+      this.q2t.attr('transform', transform)
+      this.q3t.attr('transform', transform)
+      this.q4t.attr('transform', transform)
     })
 
     this.dots
@@ -301,7 +384,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
     this.dots
       .attr('cx', (d) => this.xScale(d.x))
       .attr('cy', (d) => this.yScale(d.y))
-      .attr('r', r)
+      .attr('r', r / 3)
       .attr('opacity', opacity)
 
     this.dotTexts

@@ -32,7 +32,12 @@ export default function PageMVPShowcase() {
 function Header() {
   return (
     <header>
-      <h1>MVP SHOWCASE</h1>
+      <h1>
+        <svg width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M39.6563 15.5666V14.9925C37.4858 14.9925 35.7215 13.266 35.7215 11.1326H35.1363C35.1363 13.2617 33.3763 14.9925 31.2014 14.9925V15.5666C33.3719 15.5666 35.1363 17.293 35.1363 19.4265H35.7215C35.7215 17.2973 37.4814 15.5666 39.6563 15.5666Z" fill="black" />
+          <path d="M79.2535 15.1854C79.2535 22.2198 74.0827 26.4824 66.0034 26.4824H54.6182V3.89258H66.0034C74.0827 3.89258 79.2535 8.15093 79.2535 15.1896V15.1854ZM74.2661 15.1854C74.2661 10.5372 70.7768 8.27945 65.6366 8.27945H59.5182V22.0955H65.6366C70.7768 22.0955 74.2661 19.8378 74.2661 15.1896V15.1854Z" fill="black" />
+        </svg>
+        </h1>
     </header>
   )
 }
@@ -43,12 +48,17 @@ function Footer() {
   }
   return (
     <footer>
-      <a href={link.vercel} target='_blank' rel='noopener noreferrer'>
-        visit vercel
-      </a>
-      <a href={link.github} target='_blank' rel='noopener noreferrer'>
-        visit github
-      </a>
+      <span>
+        Copyright by D... All rights reserved.
+      </span>
+      <div>
+        <a href={link.vercel} target='_blank' rel='noopener noreferrer'>
+          <img src='https://cdn1.iconfinder.com/data/icons/ionicons-fill-vol-2/512/logo-vercel-256.png' alt='' />
+        </a>
+        <a href={link.github} target='_blank' rel='noopener noreferrer'>
+          <img src='https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-social-github-256.png' alt='' />
+        </a>
+      </div>
     </footer>
   )
 }
@@ -60,7 +70,13 @@ function Main() {
   const onErrorImg = (e: any) => {
     e.target.src = 'https://dummyimage.com/200x200/efefef/444444.png&text=no-image'
   }
-  const list = data?.data.data || []
+  const [pageNo, setPageNo] = useState(1)
+  const size = 100
+  const page = (+pageNo - 1) * size
+  const [category, setCategory] = useState()
+
+  const list = data?.data.data.filter((item: any) => category ? item.cate_id === category : item).slice(page, page + size) || []
+
   const getPercent = (value: number, fieldname: string) => {
     const targets = list.map((item: { [k: string]: any }) => item[fieldname])
     const min = Math.min(...targets)
@@ -70,13 +86,39 @@ function Main() {
   }
   const [sort, setSort] = useState('ecpm')
   const [selected, setSelected] = useState(27241)
+  const [x, setX] = useState('ctr')
+  const [y, setY] = useState('view_cvr')
+
+  const lastPage = Math.ceil(data?.data.data.length / size)
+
+  const optionList = ['ctr', 'view_cvr', 'addcart_cnt', 'click_cnt', 'conversion_amt', 'conversion_cnt', 'ecpm', 'imp_cnt', 'imp_cvr', 'view_cnt']
+
+  const nextPage = () => {
+    if (pageNo < lastPage) setPageNo(pageNo + 1)    
+  }
+  const prevPage = () => {
+    if (pageNo > 1) setPageNo(pageNo - 1)
+  }
+
+
+  const changeCategory = (v: any) => {
+    setCategory(v)
+    setSelected(v === '99' ? 32586 : 27241)
+    setPageNo(1)
+  }
+
+  const xyCondition = (v: any) => x === v || y === v
+
+
+
+  let c:any = null
 
   useEffect(() => {
     if (!isLoading) {
-      const w = window.innerWidth / 2 - 60
-      const h = window.innerHeight - 128 - 48
+      const w = window.innerWidth - 1480
+      const h = window.innerHeight - 128 - 200
       const r = w * 0.009084027252081756
-      const c = new ZoomAbleScatterPlotWithQuadrant({
+       c = new ZoomAbleScatterPlotWithQuadrant({
         viewport: { width: w, height: h },
         margin: { top: 12, bottom: 12, left: 12, right: 12 },
         zoom: {
@@ -93,31 +135,166 @@ function Main() {
           data: Array.from({ length: list.length }).map((_, i) => ({
             i: list[i].item_id,
             n: list[i].item_name,
-            x: list[i].ctr,
-            y: list[i].view_cvr || 0,
+            x: list[i][x],
+            y: list[i][y] || 0,
             t: list[i].imp_cnt,
             img: list[i].main_item_img,
           })),
         },
       })
-      c.init().quadrantTo(27241).zoomTo(selected)
+      c.init()
+      // c.init().quadrantTo(selected).zoomTo(selected)
     }
-  }, [selected, isLoading])
+  }, [selected, isLoading, x, y, category, list])
+
+
+    useEffect(()=>{
+      c?.zoomTo(selected)
+      console.log(selected)
+    },[selected])
+
+
+  const [showDetail, setShowDetail] = useState('')
+
+
+  const itemClassName = (id: any) => {
+    let className = ''
+    if (selected === id) className = ui.selected
+    if (showDetail === id) className = `${className} ${ui.view_detail}`
+
+    return className
+  }
+
   return (
     <>
       <main>
         {isLoading && 'loading...'}
+
         {!isLoading && (
           <div className={ui.content}>
             <div className={ui.preview}>
+              <div className={ui.wrap_select}>
+                <div>
+                  <div className={ui.select_item}>
+                    <span className={ui.select_name}>카테고리를 선택하세요.</span>
+                    <select onChange={({ target }) => changeCategory(target.value)}>
+                      <option value=''>전체</option>
+                      <option value='99'>상의</option>
+                      <option value='100'>하의</option>
+                    </select>
+                  </div>
+                  <div className={ui.select_item}>
+                    <span className={ui.select_name}>X축 데이터를 선택하세요.</span>
+                    <select onChange={({ target }) => setX(target.value)} defaultValue={x}>
+                      {optionList.map((item) =>
+                      (
+                        item !== y && <option key={item} value={item} >{item}</option>
+                      )
+                      )}
+                    </select>
+                  </div>
+                  <div className={ui.select_item}>
+                    <span className={ui.select_name}>Y축 데이터를 선택하세요.</span>
+                    <select onChange={({ target }) => setY(target.value)} defaultValue={y}>
+                      {optionList.map((item) =>
+                      (
+                        item !== x && <option key={item} value={item} >{item}</option>
+                      )
+                      )}
+                    </select>
+                  </div>
+                </div>
+                <div className={ui.wrap_paging}>
+                  <button onClick={prevPage}></button>
+                  {pageNo} / {lastPage}
+                  <button onClick={nextPage}></button>
+                </div>
+              </div>
               <ul>
                 {list.map((item: any, idx: number) => (
                   <li
                     id={item.item_id}
                     key={`${item.item_id}-${item.sequence_no}`}
                     onClick={() => setSelected(item.item_id)}
+                    className={itemClassName(item.item_id)}
                   >
-                    <span>
+                    <div className={ui.txt_name}>
+                      <em>{item.item_id}</em>
+                      {/* <span className={ui.row}>{(Math.floor((idx + (size * (pageNo - 1))) / 4) + 1)}</span> */}
+                      {item.item_name}
+                      <span>{currency.format(item.selling_price)}</span>
+                    </div>
+                    <div className={ui.info}>
+                      {xyCondition('ctr') && <span className={ui.option}>클릭율
+                        <i>{number.format(item.ctr)}%</i>
+                      </span>}
+                      {xyCondition('view_cvr') && <span className={ui.option}>view_cvr
+                        <i> {number.format(item.view_cvr)}%</i>
+                      </span>}
+                      {xyCondition('addcart_cnt') && <span className={ui.option}>장바구니 담긴 수
+                        <i>{number.format(item.addcart_cnt)}</i>
+                      </span>}
+                      {xyCondition('click_cnt') && <span className={ui.option}>클릭수
+                        <i>{number.format(item.click_cnt)}</i>
+                      </span>}
+                      {xyCondition('conversion_amt') && <span className={ui.option}>구매금액
+                        <i>{currency.format(item.conversion_amt)}</i>
+                      </span>}
+                      {xyCondition('conversion_cnt') && <span className={ui.option}>구매건수
+                        <i>{number.format(item.conversion_cnt)}</i>
+                      </span>}
+                      {xyCondition('ecpm') && <span className={ui.option}>ecpm
+                        <i>{number.format(item.ecpm.toFixed(0))}%</i>
+                      </span>}
+                      {xyCondition('imp_cnt') && <span className={ui.option}>imp_cnt
+                        <i>{number.format(item.imp_cnt)}</i>
+                      </span>}
+                      {/* {xyCondition('ecpm_per')  && <span className={ui.option}>ecpm_per
+                                              <i> {getPercent(item.ecpm, 'ecpm')}%</i>
+                                            </span>} */}
+                      {xyCondition('imp_cvr') && <span className={ui.option}>imp_cvr
+                        <i>{item.imp_cvr.toFixed(0)}%</i>
+                      </span>}
+                      {xyCondition('view_cnt') && <span className={ui.option}>view_cnt
+                        <i> {number.format(item.view_cnt)}</i>
+                      </span>}
+                    </div>
+                    <div className={ui.detail}>
+                      {<span className={ui.option}>클릭율
+                        <i>{number.format(item.ctr)}%</i>
+                      </span>}
+                      {<span className={ui.option}>view_cvr
+                        <i> {number.format(item.view_cvr)}%</i>
+                      </span>}
+                      {<span className={ui.option}>장바구니 담긴 수
+                        <i>{number.format(item.addcart_cnt)}</i>
+                      </span>}
+                      {<span className={ui.option}>클릭수
+                        <i>{number.format(item.click_cnt)}</i>
+                      </span>}
+                      {<span className={ui.option}>구매금액
+                        <i>{currency.format(item.conversion_amt)}</i>
+                      </span>}
+                      {<span className={ui.option}>구매건수
+                        <i>{number.format(item.conversion_cnt)}</i>
+                      </span>}
+                      {<span className={ui.option}>ecpm
+                        <i>{number.format(item.ecpm.toFixed(0))}%</i>
+                      </span>}
+                      {<span className={ui.option}>imp_cnt
+                        <i>{number.format(item.imp_cnt)}</i>
+                      </span>}
+                      {/* {xyCondition('ecpm_per')  && <span className={ui.option}>ecpm_per
+                                              <i> {getPercent(item.ecpm, 'ecpm')}%</i>
+                                            </span>} */}
+                      {<span className={ui.option}>imp_cvr
+                        <i>{item.imp_cvr.toFixed(0)}%</i>
+                      </span>}
+                      {<span className={ui.option}>view_cnt
+                        <i> {number.format(item.view_cnt)}</i>
+                      </span>}
+                    </div>
+                    <span className={ui.thumb}>
                       <img
                         loading='lazy'
                         src={item.main_item_img}
@@ -125,27 +302,25 @@ function Main() {
                         onError={onErrorImg}
                       />
                     </span>
-                    <div>
-                      <div>
-                        idx:{idx}({item.item_id})
-                      </div>
-                      <div className={'g_ellipsis_2'}>{item.item_name}</div>
-                      <div>{currency.format(item.selling_price)}</div>
-                      <div>ecpm={item.ecpm.toFixed(0)}</div>
-                      <div>ecpm_per={getPercent(item.ecpm, 'ecpm')}%</div>
-                      <div>노출수={number.format(item.imp_cnt)}</div>
-                      <div>view_cvr={number.format(item.view_cvr)}</div>
-                      <div>구매건수={number.format(item.conversion_cnt)}</div>
-                    </div>
+                    <button className={ui.btn_more} onClick={() => setShowDetail(item.item_id)}>자세히 보기</button>
                   </li>
+
                 ))}
               </ul>
             </div>
-            <div id='target' className={ui.target}></div>
+            <div className={ui.wrap_chart}>
+              <div className={ui.y_axis}>
+                {y}
+              </div>
+              <div id='target' className={ui.target}></div>
+              <div className={ui.x_axis}>
+                {x}
+              </div>
+            </div>
           </div>
         )}
         {/* <SidePanel d={list} /> */}
-      </main>
+      </main >
     </>
   )
 }
