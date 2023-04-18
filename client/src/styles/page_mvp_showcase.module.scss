@@ -157,17 +157,34 @@
               .thumb {
                 display: none;
               }
-              .detail {
+              .detail,
+              .btn_close {
                 display: flex;
+              }
+              .btn_more {
+                display: none;
               }
             }
           }
-          .row {
-            font-size: 18px;
-            font-weight: bold;
-            height: 54px;
-            width: 40px;
-            margin-right: 8px;
+          .row_txt {
+            position: absolute;
+            top: 0;
+            right: 0%;
+            background: var(--brand_green_400);
+            color: #fff;
+            text-align: center;
+            transform: rotate(45deg);
+            width: 80px;
+            padding-top: 20px;
+            height: 40px;
+            margin-top: -10px;
+            margin-right: -25px;
+            i {
+              transform: rotate(-45deg);
+              display: block;
+              font-style: normal;
+              padding-left: 5px;
+            }
           }
           .thumb {
             display: flex;
@@ -225,18 +242,26 @@
             margin: 0 -24px;
             padding: 0 24px 8px;
             em {
-              display: block;
+              display: flex;
+              justify-content: space-between;
               font-style: normal;
               font-size: 16px;
               margin-bottom: 2px;
             }
-            span {
+            .price {
               display: block;
               font-size: 16px;
               padding: 10px 0 4px;
               color: #6f6f6f;
             }
           }
+          .wrap_btn {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
           .btn_more {
             background: none;
             border: 1px solid #e3e3e3;
@@ -244,9 +269,28 @@
             font-size: 14px;
             width: 100px;
             height: 42px;
-            margin-left: auto;
-            margin-top: auto;
             font-weight: 500;
+            margin-top: auto;
+            margin-left: auto;
+            cursor: pointer;
+            &:hover {
+              background: var(--brand_black_1100);
+              color: white;
+            }
+          }
+          .btn_close {
+            display: none;
+            background: none;
+            border: 1px solid #e3e3e3;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 100px;
+            height: 42px;
+            font-weight: 500;
+            margin-top: auto;
+            margin-left: auto;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             &:hover {
               background: var(--brand_black_1100);
@@ -255,24 +299,60 @@
           }
         }
       }
-      .wrap_chart {
+      #wrap_chart {
         border-left: 1px solid #e3e3e3;
-        padding: 40px 100px;
         position: relative;
+        .btn_expand {
+          background: #fff;
+          padding:5px;
+          border:1px solid #e3e3e3;
+          border-radius: 8px;
+          position: absolute;
+          right:120px;
+          top:60px;
+          cursor: pointer;
+        }
+
+        .chart_inner {
+          padding: 40px 100px;
+          background: #fff;
+        }
+        &.expand {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          z-index: 10000;
+          background: rgba(0, 0, 0, 0.5);
+        }
+
         .y_axis {
           position: absolute;
-          writing-mode: vertical-lr;
-          font-size:20px;
-          left: 60px;
-          top: 50%;
-          transform: translateY(-50%) rotate(-180deg);
+          font-size: 20px;
+          left: 40px;
+          top: 40px;
+          bottom: 50%;
+          display: flex;
+          flex-flow: column;
+          justify-content: space-between;
+          span {
+            transform: rotate(-90deg);
+            color: #989898;
+          }
         }
         .x_axis {
           position: absolute;
-          font-size:20px;
+          font-size: 20px;
           bottom: 60px;
-          left: 50%;
+          left: 80px;
+          right: 100px;
+          display: flex;
           transform: translateY(-50%);
+          justify-content: space-between;
+          span {
+            color: #989898;
+          }
         }
       }
     }

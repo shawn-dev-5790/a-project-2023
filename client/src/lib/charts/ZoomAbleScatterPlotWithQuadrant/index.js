@@ -194,16 +194,16 @@ export class ZoomAbleScatterPlotWithQuadrant {
     this.gq = this.svg.append('g').attr('class', '_g_q')
     this.gd = this.svg.append('g').attr('class', '_g_d')
 
-    this.q1t = this.gq
+    this.gq1 = this.gq
       .append('rect')
       .attr('fill', '#FF7770')
-      .attr('x', xScale(midX))
+      .attr('x', width / 2)
       .attr('y', 0)
       .attr('width', width / 2)
       .attr('height', height / 2)
       .attr('opacity', 0.2)
 
-    this.q2t = this.gq
+    this.gq2 = this.gq
       .append('rect')
       .attr('fill', '#25D4B1')
       .attr('x', 0)
@@ -212,56 +212,55 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .attr('height', height / 2)
       .attr('opacity', 0.2)
 
-    this.q3t = this.gq
+    this.gq3 = this.gq
       .append('rect')
       .attr('fill', '#1AABFF')
       .attr('x', 0)
-      .attr('y', yScale(midY))
+      .attr('y', height / 2)
       .attr('width', width / 2)
       .attr('height', height / 2)
       .attr('opacity', 0.2)
 
-    this.q4t = this.svg
+    this.gq4 = this.gq
       .append('rect')
       .attr('fill', '#FAFA00')
-      .attr('x', xScale(midX))
-      .attr('y', yScale(midY))
+      .attr('x', width / 2)
+      .attr('y', height / 2)
       .attr('width', width / 2)
       .attr('height', height / 2)
       .attr('opacity', 0.2)
 
-    // this.q1t = this.gq
-    //   .append('text')
-    //   .attr('x', xScale(midX / 2))
-    //   .attr('y', yScale(midY + midY / 2))
-    //   .attr('transform', 'translate(-50, -50)')
-    //   .text('Quadrant 1')
+    this.gq1t = this.gq
+      .append('text')
+      .attr('x', xScale(midX / 2))
+      .attr('y', yScale(midY + midY / 2))
+      .attr('font-size', 70)
+      .attr('opacity', .2)
+      .text('A')
 
-    // this.q2t = this.gq
-    //   .append('text')
-    //   .attr('x', xScale(midX / 2))
-    //   .attr('y', yScale(midY / 2))
-    //   .attr('transform', 'translate(-50, -50)')
-    //   .text('Quadrant 2')
+    this.gq2t = this.gq
+      .append('text')
+      .attr('x', xScale(midX + midX / 2))
+      .attr('y', yScale(midY + midY / 2))
+      .attr('font-size', 70)
+      .attr('opacity', .2)
+      .text('B')
 
-    // this.q3t = this.gq
-    //   .append('rect')
-    //   .attr('fill', '#f99')
-    //   .attr('x', 0)
-    //   .attr('y', yScale(midY ))
-    //   .attr('width', width / 2)
-    //   .attr('height', height /2)
-    //   .attr('opacity', .5)
-    //   // .attr('transform', 'translate(-50, -50)')
-    //   .text('Quadrant 3')
-    //   .append('text').text('aaasdaslkjdlaksjdlkajsdlkjaslkdj')
+    this.gq3t = this.gq
+      .append('text')
+      .attr('x', xScale(midX + midX / 2))
+      .attr('y', yScale(midY / 2))
+      .attr('font-size', 70)
+      .attr('opacity', .2)
+      .text('C')
 
-    // this.q4t = this.svg
-    //   .append('text')
-    //   .attr('x', xScale(midX + midX / 2))
-    //   .attr('y', yScale(midY + midY / 2))
-    //   .attr('transform', 'translate(-50, -50)')
-    //   .text('Quadrant 4')
+    this.gq4t = this.gq
+      .append('text')
+      .attr('x', xScale(midX / 2))
+      .attr('y', yScale(midY / 2))
+      .attr('font-size', 70)
+      .attr('opacity', .2)
+      .text('D')
 
     this.dots = this.gd
       .selectAll('circle')
@@ -313,10 +312,10 @@ export class ZoomAbleScatterPlotWithQuadrant {
       this.gx.call(this.xAxis.scale(transform.rescaleX(this.xScale)))
       this.gy.call(this.yAxis.scale(transform.rescaleY(this.yScale)))
       this.svg.selectAll('g.tick line').attr('stroke', '#ccc')
-      this.q1t.attr('transform', transform)
-      this.q2t.attr('transform', transform)
-      this.q3t.attr('transform', transform)
-      this.q4t.attr('transform', transform)
+      this.gq1.attr('transform', transform * -1)
+      this.gq2.attr('transform', transform * -1)
+      this.gq3.attr('transform', transform * -1)
+      this.gq4.attr('transform', transform * -1)
     })
 
     this.dots
