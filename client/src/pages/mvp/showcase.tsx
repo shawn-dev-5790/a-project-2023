@@ -37,7 +37,7 @@ function Header() {
           <path d="M39.6563 15.5666V14.9925C37.4858 14.9925 35.7215 13.266 35.7215 11.1326H35.1363C35.1363 13.2617 33.3763 14.9925 31.2014 14.9925V15.5666C33.3719 15.5666 35.1363 17.293 35.1363 19.4265H35.7215C35.7215 17.2973 37.4814 15.5666 39.6563 15.5666Z" fill="black" />
           <path d="M79.2535 15.1854C79.2535 22.2198 74.0827 26.4824 66.0034 26.4824H54.6182V3.89258H66.0034C74.0827 3.89258 79.2535 8.15093 79.2535 15.1896V15.1854ZM74.2661 15.1854C74.2661 10.5372 70.7768 8.27945 65.6366 8.27945H59.5182V22.0955H65.6366C70.7768 22.0955 74.2661 19.8378 74.2661 15.1896V15.1854Z" fill="black" />
         </svg>
-        </h1>
+      </h1>
     </header>
   )
 }
@@ -94,10 +94,12 @@ function Main() {
   const optionList = ['ctr', 'view_cvr', 'addcart_cnt', 'click_cnt', 'conversion_amt', 'conversion_cnt', 'ecpm', 'imp_cnt', 'imp_cvr', 'view_cnt']
 
   const nextPage = () => {
-    if (pageNo < lastPage) setPageNo(pageNo + 1)    
+    if (pageNo < lastPage) setPageNo(pageNo + 1)
+    setShowDetail('')
   }
   const prevPage = () => {
     if (pageNo > 1) setPageNo(pageNo - 1)
+    setShowDetail('')
   }
 
 
@@ -111,14 +113,18 @@ function Main() {
 
 
 
-  let c:any = null
+  const [expand, setExpand] = useState(false)
+
+  let c: any = null
 
   useEffect(() => {
+    const wm = expand ? 200 : 1480
+    const hm = expand ? 200 : 328
     if (!isLoading) {
-      const w = window.innerWidth - 1480
-      const h = window.innerHeight - 128 - 200
+      const w = window.innerWidth - wm
+      const h = window.innerHeight - hm
       const r = w * 0.009084027252081756
-       c = new ZoomAbleScatterPlotWithQuadrant({
+      c = new ZoomAbleScatterPlotWithQuadrant({
         viewport: { width: w, height: h },
         margin: { top: 12, bottom: 12, left: 12, right: 12 },
         zoom: {
@@ -145,13 +151,13 @@ function Main() {
       c.init()
       // c.init().quadrantTo(selected).zoomTo(selected)
     }
-  }, [selected, isLoading, x, y, category, list])
+  }, [selected, isLoading, x, y, category, list, expand])
 
 
-    useEffect(()=>{
-      c?.zoomTo(selected)
-      console.log(selected)
-    },[selected])
+  useEffect(() => {
+    c?.zoomTo(selected)
+  }, [selected])
+
 
 
   const [showDetail, setShowDetail] = useState('')
@@ -218,11 +224,13 @@ function Main() {
                     onClick={() => setSelected(item.item_id)}
                     className={itemClassName(item.item_id)}
                   >
+                    <span className={ui.row_txt}>
+                      <i>{(Math.floor((idx + (size * (pageNo - 1))) / 4) + 1)}</i>
+                    </span>
                     <div className={ui.txt_name}>
                       <em>{item.item_id}</em>
-                      {/* <span className={ui.row}>{(Math.floor((idx + (size * (pageNo - 1))) / 4) + 1)}</span> */}
                       {item.item_name}
-                      <span>{currency.format(item.selling_price)}</span>
+                      <span className={ui.price}>{currency.format(item.selling_price)}</span>
                     </div>
                     <div className={ui.info}>
                       {xyCondition('ctr') && <span className={ui.option}>클릭율
@@ -303,23 +311,32 @@ function Main() {
                       />
                     </span>
                     <button className={ui.btn_more} onClick={() => setShowDetail(item.item_id)}>자세히 보기</button>
+                    <button className={ui.btn_close} onClick={() => setShowDetail('')}>간략히 보기</button>
                   </li>
 
                 ))}
               </ul>
             </div>
-            <div className={ui.wrap_chart}>
-              <div className={ui.y_axis}>
-                {y}
-              </div>
-              <div id='target' className={ui.target}></div>
-              <div className={ui.x_axis}>
-                {x}
+            <div id={ui.wrap_chart} className={expand ? ui.expand : ''}>
+              <div className={ui.chart_inner}>
+                <button onClick={() => setExpand(!expand)} className={ ui.btn_expand}>
+                  <img src={expand ? 'https://cdn1.iconfinder.com/data/icons/systemui/21/contract-30.png' :'https://cdn1.iconfinder.com/data/icons/bootstrap/16/arrows-angle-expand-30.png' } alt='' />
+                  
+                </button>
+                <div className={ui.y_axis}>
+                  <span>높음</span>
+                  <span>{y}</span>
+                </div>
+                <div id='target' className={ui.target}></div>
+                <div className={ui.x_axis}>
+                  <span>낮음</span>
+                  <span>{x}</span>
+                  <span>높음</span>
+                </div>
               </div>
             </div>
           </div>
         )}
-        {/* <SidePanel d={list} /> */}
       </main >
     </>
   )
