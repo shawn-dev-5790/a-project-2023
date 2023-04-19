@@ -165,6 +165,23 @@
                 display: none;
               }
             }
+            &.selected {
+              .txt_name{
+                border-color:#fff;
+              }
+              .detail .option{
+                background:#fff;
+              }
+              // .info span{
+              //   color:#fff;
+              // }
+              // .txt_name{
+              //   color:#fff;
+              //   .price{
+              //     color:#eee;
+              //   }
+              // }
+            }
           }
           .row_txt {
             position: absolute;
@@ -266,6 +283,7 @@
             background: none;
             border: 1px solid #e3e3e3;
             border-radius: 8px;
+            background:#fff;
             font-size: 14px;
             width: 100px;
             height: 42px;
@@ -275,6 +293,7 @@
             cursor: pointer;
             &:hover {
               background: var(--brand_black_1100);
+              border-color:var(--brand_black_1100);
               color: white;
             }
           }
@@ -291,8 +310,10 @@
             margin-left: auto;
             align-items: center;
             justify-content: center;
+            background:#fff;
             cursor: pointer;
             &:hover {
+              border-color:var(--brand_black_1100);
               background: var(--brand_black_1100);
               color: white;
             }
@@ -302,14 +323,17 @@
       #wrap_chart {
         border-left: 1px solid #e3e3e3;
         position: relative;
+        .target{
+          cursor:zoom-in;
+        }
         .btn_expand {
           background: #fff;
-          padding:5px;
-          border:1px solid #e3e3e3;
+          padding: 5px;
+          border: 1px solid #e3e3e3;
           border-radius: 8px;
           position: absolute;
-          right:120px;
-          top:60px;
+          right: 120px;
+          top: 60px;
           cursor: pointer;
         }
 
@@ -353,6 +377,10 @@
           span {
             color: #989898;
           }
+        }
+
+        .tt_name{
+          font-size:50px;
         }
       }
     }
