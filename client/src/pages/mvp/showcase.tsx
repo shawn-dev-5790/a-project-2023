@@ -15,10 +15,42 @@ export default function PageMVPShowcase() {
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
         <link rel='icon' href='/favicon.ico' />
         <style>{`
-          ._tt{position:absolute;display:flex;flex-flow:column;justify-content:center;align-items:center;gap:10px;padding:4px;width:120px;background-color:black;color:white;font-size:12px;border-radius:4px}
-          ._tt img{display:block;width:100%;text-align:center;object-fit:cover}
+          ._tt{position:absolute;display:flex;flex-flow:column;justify-content:center;align-items:center;gap:10px;padding:20px 14px;width:180px;background-color:#fff;font-size:12px;border-radius:8px;border:1px solid #e3e3e3;z-index:9999999}
+          ._tt img{display:block;width:100%;text-align:center;object-fit:cover; border-radius:8px;}
           ._g_d circle, ._g_d text{cursor:pointer;}
-        `}</style>
+          ._tt .name{           
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+            overflow: hidden;
+            font-weight: 500;
+            color: #333;
+            border-bottom: 1px solid #e3e3e3;
+            margin: 0 -20px 20px;
+            padding: 0 24px 8px;}
+            ._tt .name  em{
+              display: flex;
+              justify-content: space-between;
+              font-style: normal;
+              font-size: 13px;
+              margin-bottom: 2px;
+            }
+            ._tt_info{
+              display:flex;    
+              margin-top:14px;        
+            }
+            ._tt_info div{
+              width:50%;
+            }
+            ._tt_info span{
+              display:block;
+              font-size:15px;
+            }
+            ._tt_info span:first-child{
+              font-size:13px;
+            }
+        `}
+        </style>
       </Head>
       <div className={ui.page_mvp_showcase}>
         <Header />
@@ -75,7 +107,10 @@ function Main() {
   const page = (+pageNo - 1) * size
   const [category, setCategory] = useState()
 
-  const list = data?.data.data.filter((item: any) => category ? item.cate_id === category : item).slice(page, page + size) || []
+
+  const cList = data?.data.data.filter((item: any) => category ? item.cate_id === category : item)
+
+  const list = cList?.slice(page, page + size) || []
 
   const getPercent = (value: number, fieldname: string) => {
     const targets = list.map((item: { [k: string]: any }) => item[fieldname])
@@ -89,7 +124,7 @@ function Main() {
   const [x, setX] = useState('ctr')
   const [y, setY] = useState('view_cvr')
 
-  const lastPage = Math.ceil(data?.data.data.length / size)
+  const lastPage = Math.ceil(cList?.length / size)
 
   const optionList = ['ctr', 'view_cvr', 'addcart_cnt', 'click_cnt', 'conversion_amt', 'conversion_cnt', 'ecpm', 'imp_cnt', 'imp_cvr', 'view_cnt']
 
@@ -171,6 +206,33 @@ function Main() {
     return className
   }
 
+
+
+  const lastIdx = list.length
+  const xLast = list.slice().sort((a: any, b: any) => a[x] - b[x])[lastIdx - 1]
+  const yLast = list.slice().sort((a: any, b: any) => a[y] - b[y])[lastIdx - 1]
+
+
+  const itemColor = (item: any) => {
+
+    if (item[x] >= xLast[x] / 2 && item[y] >= yLast[y] / 2) {
+      // A
+      return 'rgba(255,119,112,.2)'
+    }
+    if (item[x] < xLast[x] / 2 && item[y] >= yLast[y] / 2) {
+      // B
+      return 'rgba(37,212,177,.2)'
+    }
+    if (item[x] < xLast[x] / 2 && item[y] < yLast[y] / 2) {
+      // C
+      return 'rgba(26,171,255,.2)'
+    }
+    if (item[x] >= xLast[x] / 2 && item[y] < yLast[y] / 2) {
+      // D
+      return 'rgba(255,255,0,.2)'
+    }
+  }
+
   return (
     <>
       <main>
@@ -223,6 +285,8 @@ function Main() {
                     key={`${item.item_id}-${item.sequence_no}`}
                     onClick={() => setSelected(item.item_id)}
                     className={itemClassName(item.item_id)}
+                    data-color={itemColor(item)}
+                    style={{ background: selected === item.item_id ? itemColor(item) : '' }}
                   >
                     <span className={ui.row_txt}>
                       <i>{(Math.floor((idx + (size * (pageNo - 1))) / 4) + 1)}</i>
@@ -319,15 +383,15 @@ function Main() {
             </div>
             <div id={ui.wrap_chart} className={expand ? ui.expand : ''}>
               <div className={ui.chart_inner}>
-                <button onClick={() => setExpand(!expand)} className={ ui.btn_expand}>
-                  <img src={expand ? 'https://cdn1.iconfinder.com/data/icons/systemui/21/contract-30.png' :'https://cdn1.iconfinder.com/data/icons/bootstrap/16/arrows-angle-expand-30.png' } alt='' />
-                  
+                <button onClick={() => setExpand(!expand)} className={ui.btn_expand}>
+                  <img src={expand ? 'https://cdn1.iconfinder.com/data/icons/systemui/21/contract-30.png' : 'https://cdn1.iconfinder.com/data/icons/bootstrap/16/arrows-angle-expand-30.png'} alt='' />
+
                 </button>
                 <div className={ui.y_axis}>
                   <span>높음</span>
                   <span>{y}</span>
                 </div>
-                <div id='target' className={ui.target}></div>
+                <div id='target' className={ui.target} data-x={x} data-y={y}></div>
                 <div className={ui.x_axis}>
                   <span>낮음</span>
                   <span>{x}</span>

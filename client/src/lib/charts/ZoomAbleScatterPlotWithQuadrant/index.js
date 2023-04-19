@@ -235,7 +235,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .attr('x', xScale(midX / 2))
       .attr('y', yScale(midY + midY / 2))
       .attr('font-size', 70)
-      .attr('opacity', .2)
+      .attr('opacity', 0.2)
       .text('A')
 
     this.gq2t = this.gq
@@ -243,7 +243,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .attr('x', xScale(midX + midX / 2))
       .attr('y', yScale(midY + midY / 2))
       .attr('font-size', 70)
-      .attr('opacity', .2)
+      .attr('opacity', 0.2)
       .text('B')
 
     this.gq3t = this.gq
@@ -251,7 +251,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .attr('x', xScale(midX + midX / 2))
       .attr('y', yScale(midY / 2))
       .attr('font-size', 70)
-      .attr('opacity', .2)
+      .attr('opacity', 0.2)
       .text('C')
 
     this.gq4t = this.gq
@@ -259,7 +259,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .attr('x', xScale(midX / 2))
       .attr('y', yScale(midY / 2))
       .attr('font-size', 70)
-      .attr('opacity', .2)
+      .attr('opacity', 0.2)
       .text('D')
 
     this.dots = this.gd
@@ -275,6 +275,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .enter()
       .append('text')
       .attr('class', (d) => `_dot_text_${d.i}`)
+      .attr('font-size', '12px')
 
     // object
     this.zoom = d3.zoom().scaleExtent(scaleExtent).translateExtent(translateExtent)
@@ -287,7 +288,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
     this.yScale = d3
       .scaleLinear()
       .domain([d3.min(dots.data, (d) => d.y), d3.max(dots.data, (d) => d.y)])
-      .range([0, height])
+      .range([height, 0])
 
     this.xAxis = d3
       .axisBottom(this.xScale)
@@ -304,6 +305,9 @@ export class ZoomAbleScatterPlotWithQuadrant {
     return this
   }
   addEvent() {
+    const chart = document.getElementById('target')
+    const xLabel = chart.getAttribute('data-x')
+    const yLabel = chart.getAttribute('data-y')
     this.svg.on('dblclick.zoom', null)
 
     this.zoom.on('zoom', ({ transform }) => {
@@ -331,10 +335,14 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .on('mousemove', (e, d) => {
         const x = e.layerX - 60
         const y = e.layerY + this.spec.dots.r * 4
-
+        console.log(d)
         this.tt.style('left', `${x}px`)
         this.tt.style('top', `${y}px`)
         this.tt.html('')
+        this.ttName = this.tt.append('div').attr('class', 'name')
+        this.ttName.append('em').html(d.i)
+        this.ttName.append('span').html(d.n)
+        console.log(d)
         this.tt
           .append('img')
           .attr('src', d.img)
@@ -344,18 +352,23 @@ export class ZoomAbleScatterPlotWithQuadrant {
           .style('width', '100%')
           .style('text-align', 'center')
           .style('object-fit', 'cover')
-        this.tt.append('strong').html(d.n)
-        this.tt.append('p').html('id : ' + d.i)
-        this.tt.append('div').html('cvr : ' + d.t)
+          this.tt_info = this.tt.append('div').attr('class', '_tt_info')
+        this.tt_info.append('div').html(`<span>${xLabel}</span> <span>${d.x}</span>`)
+        this.tt_info.append('div').html(`<span>${yLabel}</span> <span>${d.y}</span>`)
       })
       .on('click', (_, d) => {
         this.zoomTo(d.i)
         const listTarget = document.getElementById(d.i)
+        const bgColor = listTarget.getAttribute('data-color')
         listTarget.scrollIntoView()
-        listTarget.style.transition = 'all 1s ease'
-        listTarget.style.backgroundColor = 'rgba(245, 40, 145, 0.8)'
+        // listTarget.style.transition = 'all 1s ease'
+        // listTarget.style.backgroundColor = 'rgba(245, 40, 145, 0.8)'
+        listTarget.classList.add('selected')
+        listTarget.style.background = bgColor
         const m = setTimeout(() => {
-          listTarget.style.backgroundColor = 'white'
+          // listTarget.style.backgroundColor = 'white'
+          listTarget.classList.remove('selected')
+          listTarget.style.background = 'none'
           clearTimeout(m)
         }, 3000)
       })
@@ -363,11 +376,16 @@ export class ZoomAbleScatterPlotWithQuadrant {
     this.dotTexts.on('click', (_, d) => {
       this.zoomTo(d.i)
       const listTarget = document.getElementById(d.i)
+      const bgColor = listTarget.getAttribute('data-color')
       listTarget.scrollIntoView()
-      listTarget.style.transition = 'all 1s ease'
-      listTarget.style.backgroundColor = 'rgba(245, 40, 145, 0.8)'
+      // listTarget.style.transition = 'all 1s ease'
+      // listTarget.style.backgroundColor = 'rgba(245, 40, 145, 0.8)'
+      listTarget.classList.add('selected')
+      listTarget.style.background = bgColor
       const m = setTimeout(() => {
-        listTarget.style.backgroundColor = 'white'
+        // listTarget.style.backgroundColor = 'white'
+        listTarget.classList.remove('selected')
+        listTarget.style.background = 'none'
         clearTimeout(m)
       }, 3000)
     })
