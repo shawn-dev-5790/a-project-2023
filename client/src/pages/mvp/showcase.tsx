@@ -153,11 +153,11 @@ function Main() {
   let c: any = null
 
   useEffect(() => {
-    const wm = expand ? 200 : 1480
+    const wm = expand ? 80 : 1240
     const hm = expand ? 200 : 328
     if (!isLoading) {
       const w = window.innerWidth - wm
-      const h = window.innerHeight - hm
+      const h = window.innerHeight- hm
       const r = w * 0.009084027252081756
       c = new ZoomAbleScatterPlotWithQuadrant({
         viewport: { width: w, height: h },
@@ -382,9 +382,13 @@ function Main() {
               </ul>
             </div>
             <div id={ui.wrap_chart} className={expand ? ui.expand : ''}>
+
+
+
+
               <div className={ui.chart_inner}>
                 <button onClick={() => setExpand(!expand)} className={ui.btn_expand}>
-                  <img src={expand ? 'https://cdn1.iconfinder.com/data/icons/systemui/21/contract-30.png' : 'https://cdn1.iconfinder.com/data/icons/bootstrap/16/arrows-angle-expand-30.png'} alt='' />
+                  <img src={expand ? 'https://cdn1.iconfinder.com/data/icons/systemui/21/contract-24.png' : 'https://cdn1.iconfinder.com/data/icons/bootstrap/16/arrows-angle-expand-24.png'} alt='' />
 
                 </button>
                 <div className={ui.y_axis}>
@@ -398,6 +402,7 @@ function Main() {
                   <span>높음</span>
                 </div>
               </div>
+
             </div>
           </div>
         )}

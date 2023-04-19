@@ -234,7 +234,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .append('text')
       .attr('x', xScale(midX / 2))
       .attr('y', yScale(midY + midY / 2))
-      .attr('font-size', 70)
+      .attr('font-size', 50)
       .attr('opacity', 0.2)
       .text('A')
 
@@ -242,7 +242,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .append('text')
       .attr('x', xScale(midX + midX / 2))
       .attr('y', yScale(midY + midY / 2))
-      .attr('font-size', 70)
+      .attr('font-size', 50)
       .attr('opacity', 0.2)
       .text('B')
 
@@ -250,7 +250,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .append('text')
       .attr('x', xScale(midX + midX / 2))
       .attr('y', yScale(midY / 2))
-      .attr('font-size', 70)
+      .attr('font-size', 50)
       .attr('opacity', 0.2)
       .text('C')
 
@@ -258,7 +258,7 @@ export class ZoomAbleScatterPlotWithQuadrant {
       .append('text')
       .attr('x', xScale(midX / 2))
       .attr('y', yScale(midY / 2))
-      .attr('font-size', 70)
+      .attr('font-size', 50)
       .attr('opacity', 0.2)
       .text('D')
 
@@ -342,7 +342,6 @@ export class ZoomAbleScatterPlotWithQuadrant {
         this.ttName = this.tt.append('div').attr('class', 'name')
         this.ttName.append('em').html(d.i)
         this.ttName.append('span').html(d.n)
-        console.log(d)
         this.tt
           .append('img')
           .attr('src', d.img)
